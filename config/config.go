@@ -15,6 +15,8 @@ func New() *Config {
 		path = "/Applications"
 	case "linux":
 		path = "/opt"
+	case "windows":
+		path = "C:¥¥Program Files"
 	}
 
 	return &Config{
@@ -29,4 +31,8 @@ func (c *Config) IsDarwin() bool {
 
 func (c *Config) IsLinux() bool {
 	return c.OS == "linux"
+}
+
+func (c *Config) IsWindows() bool {
+	return c.OS == "windows"
 }

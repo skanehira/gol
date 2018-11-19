@@ -1,14 +1,14 @@
 # gol
 gol is simple application lancher.
 
-# Support OS
+## Support OS
 - Mac
 
-# Installtion
+## Installtion
 ```
 go get -u github.com/skanehira/gol
 ```
 
-# LoadMap
+## LoadMap
 - [ ] Support Linux,windows
 - [ ] Support arguments
