@@ -40,7 +40,7 @@ func dirWalk(dir string) []Application {
 	var apps []Application
 	for _, file := range files {
 		name := file.Name()
-		if strings.HasPrefix(name, ".") {
+		if strings.HasPrefix(name, ".") || !strings.HasSuffix(name, "app") {
 			continue
 		}
 		if file.IsDir() && !strings.HasSuffix(name, ".app") {
