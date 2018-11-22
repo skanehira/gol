@@ -9,6 +9,26 @@ gol is simple application lancher.
 go get -u github.com/skanehira/gol
 ```
 
+## Usage
+```
+# default
+$ gol
+
+# fzf mode
+$ gol -f
+
+# output application list
+$ gol -o
+
+# run specified application
+$ gol -s safari
+
+# run specified applicatiions
+$ gol -s safar,notes
+```
+
 ## LoadMap
 - [ ] Support Linux,windows
-- [ ] Support arguments
+- [x] Support fzf mode
+- [x] Support ouptut application list
+- [x] Support specified application name

@@ -1,8 +1,6 @@
 package main
 
-import (
-	"github.com/skanehira/gol/cmd"
-)
+import "github.com/skanehira/gol/cmd"
 
 func main() {
 	cmd.New().Run()

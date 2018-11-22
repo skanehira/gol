@@ -2,6 +2,12 @@ package config
 
 import "runtime"
 
+const (
+	MacOS   = "darwin"
+	Linux   = "linux"
+	Windows = "windows"
+)
+
 type Config struct {
 	OS              string
 	ApplicationPath string
@@ -11,11 +17,11 @@ func New() *Config {
 	var path string
 
 	switch runtime.GOOS {
-	case "darwin":
+	case MacOS:
 		path = "/Applications"
-	case "linux":
+	case Linux:
 		path = "/opt"
-	case "windows":
+	case Windows:
 		path = "C:¥¥Program Files"
 	}
 
@@ -23,16 +29,4 @@ func New() *Config {
 		ApplicationPath: path,
 		OS:              runtime.GOOS,
 	}
-}
-
-func (c *Config) IsDarwin() bool {
-	return c.OS == "darwin"
-}
-
-func (c *Config) IsLinux() bool {
-	return c.OS == "linux"
-}
-
-func (c *Config) IsWindows() bool {
-	return c.OS == "windows"
 }
