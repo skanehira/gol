@@ -35,13 +35,12 @@ func New() *Command {
 	}
 }
 
-func (cmd *Command) getApplications(dir string) []Application {
+func (cmd *Command) getApplications(dir string) (apps []Application) {
 	files, err := ioutil.ReadDir(dir)
 	if err != nil {
 		panic(err)
 	}
 
-	var apps []Application
 	for _, file := range files {
 		name := file.Name()
 		//  exlusion dotfiles
@@ -151,8 +150,7 @@ func (cmd *Command) Run() {
 				[]string{"fzf"},
 			)
 			if err != nil {
-				// if abort fzf then be output "exit status 130"
-				if strings.Split(err.Error(), " ")[2] == "130" {
+				if strings.Contains(err.Error(), "exit status") {
 					return
 				}
 				panic(err)
