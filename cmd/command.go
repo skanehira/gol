@@ -144,22 +144,21 @@ func (cmd *Command) Run() {
 			appNames += name + "\n"
 		}
 
-		for {
-			selected, err := pipeline.Output(
-				[]string{"echo", strings.TrimRight(appNames, "\n")},
-				[]string{"fzf"},
-			)
-			if err != nil {
-				if strings.Contains(err.Error(), "exit status") {
-					return
-				}
-				panic(err)
+		selected, err := pipeline.Output(
+			[]string{"echo", strings.TrimRight(appNames, "\n")},
+			[]string{"fzf"},
+		)
+		if err != nil {
+			if strings.Contains(err.Error(), "exit status") {
+				return
 			}
-
-			for _, app := range strings.Split(strings.TrimRight(string(selected), "\n"), "\n") {
-				cmd.runApp(paths[string(app)])
-			}
+			panic(err)
 		}
+
+		for _, app := range strings.Split(strings.TrimRight(string(selected), "\n"), "\n") {
+			cmd.runApp(paths[string(app)])
+		}
+		return
 	}
 
 	// list applications
@@ -171,37 +170,35 @@ func (cmd *Command) Run() {
 	}
 
 	// use default
-	for {
-		prompt := promptui.Select{
-			Label: "Applications",
-			Templates: &promptui.SelectTemplates{
-				Label:    `{{ . | green }}`,
-				Active:   `{{ .Name | red }}`,
-				Inactive: ` {{ .Name | cyan }}`,
-				Selected: `{{ .Name | yellow }}`,
-			},
-			Items: apps,
-			Size:  50,
-			Searcher: func(input string, index int) bool {
-				item := apps[index]
-				name := strings.Replace(strings.ToLower(item.Name), " ", "", -1)
-				input = strings.Replace(strings.ToLower(input), " ", "", -1)
+	prompt := promptui.Select{
+		Label: "Applications",
+		Templates: &promptui.SelectTemplates{
+			Label:    `{{ . | green }}`,
+			Active:   `{{ .Name | red }}`,
+			Inactive: ` {{ .Name | cyan }}`,
+			Selected: `{{ .Name | yellow }}`,
+		},
+		Items: apps,
+		Size:  50,
+		Searcher: func(input string, index int) bool {
+			item := apps[index]
+			name := strings.Replace(strings.ToLower(item.Name), " ", "", -1)
+			input = strings.Replace(strings.ToLower(input), " ", "", -1)
 
-				return strings.Contains(name, input)
-			},
-			StartInSearchMode: true,
-		}
-
-		i, _, err := prompt.Run()
-
-		if err != nil {
-			if isEOF(err) || isInterrupt(err) {
-				os.Exit(0)
-			}
-			panic(err)
-		}
-
-		cmd.runApp(apps[i].Path)
+			return strings.Contains(name, input)
+		},
+		StartInSearchMode: true,
 	}
+
+	i, _, err := prompt.Run()
+
+	if err != nil {
+		if isEOF(err) || isInterrupt(err) {
+			os.Exit(0)
+		}
+		panic(err)
+	}
+
+	cmd.runApp(apps[i].Path)
 
 }
