@@ -43,21 +43,21 @@ func (cmd *Command) getApplications(dir string) (apps []Application) {
 
 	for _, file := range files {
 		name := file.Name()
+
 		//  exlusion dotfiles
-		if strings.HasPrefix(name, ".") || !strings.HasSuffix(name, "app") {
+		if strings.HasPrefix(name, ".") {
 			continue
 		}
 
-		// mac app has app suffix
+		// if dir
 		if file.IsDir() && !strings.HasSuffix(name, ".app") {
 			apps = append(apps, cmd.getApplications(filepath.Join(dir, name))...)
-			continue
+		} else {
+			apps = append(apps, Application{
+				Name: name,
+				Path: filepath.Join(dir, name),
+			})
 		}
-
-		apps = append(apps, Application{
-			Name: name,
-			Path: filepath.Join(dir, name),
-		})
 	}
 
 	return apps
