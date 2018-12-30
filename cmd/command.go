@@ -171,7 +171,7 @@ func (cmd *Command) Run() {
 
 	// use default
 	prompt := promptui.Select{
-		Label: "Applications",
+		Label: fmt.Sprintf("Applications %d", len(apps)),
 		Templates: &promptui.SelectTemplates{
 			Label:    `{{ . | green }}`,
 			Active:   `{{ .Name | red }}`,
