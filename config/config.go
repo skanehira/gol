@@ -10,23 +10,22 @@ const (
 
 type Config struct {
 	OS              string
-	ApplicationPath string
+	ApplicationPath []string
 }
 
 func New() *Config {
-	var path string
+	var conf = &Config{
+		OS: runtime.GOOS,
+	}
 
 	switch runtime.GOOS {
 	case MacOS:
-		path = "/Applications"
+		conf.ApplicationPath = append(conf.ApplicationPath, []string{"/Applications", "/System/Library/CoreServices/Applications"}...)
 	case Linux:
-		path = "/opt"
+		// TODO support linux
 	case Windows:
-		path = "C:¥¥Program Files"
+		// TODO support windows
 	}
 
-	return &Config{
-		ApplicationPath: path,
-		OS:              runtime.GOOS,
-	}
+	return conf
 }

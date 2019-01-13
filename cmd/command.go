@@ -121,7 +121,10 @@ func (cmd *Command) Run() {
 	cmd.parseArgs()
 
 	// get application info
-	apps := cmd.getApplications(cmd.Config.ApplicationPath)
+	var apps []Application
+	for _, path := range cmd.Config.ApplicationPath {
+		apps = append(apps, cmd.getApplications(path)...)
+	}
 
 	// get specified apps
 	if *spec != "" {
