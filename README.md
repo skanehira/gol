@@ -6,7 +6,9 @@ gol is simple application lancher.
 
 ## Installtion
 ```
-go get -u github.com/skanehira/gol
+$ git clone https://github.com/skanehira/gol
+$ cd gol
+$ go build
 ```
 
 ## Usage
